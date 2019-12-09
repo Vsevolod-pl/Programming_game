@@ -1,2 +1,2 @@
 # Programming_game
-Multiplayer AAA FPS
+Multiplayer 2D AAA FPS
