@@ -15,6 +15,13 @@ class ConnectionManager{
     blood = new BloodSystem();
   }
   
+  void reset(){
+    server.write("\'restart\'");
+    status = 0;
+    players.clear();
+    blood.clear();
+  }
+  
   void update(){
     if(status == 0){
       Client newClient = server.available();
@@ -55,8 +62,8 @@ class ConnectionManager{
       ClientPlayer p = (ClientPlayer) players.get(i);
       if(p.hp <= 0){
         p.onDeath();
+        blood.add(p.x,p.y);
         players.remove(i);i--;
-        nPlayers--;
       }
     }
   }

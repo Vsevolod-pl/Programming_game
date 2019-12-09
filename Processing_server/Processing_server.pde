@@ -4,6 +4,7 @@ ArrayList<item> items = new ArrayList<item>();
 ArrayList<Polygon> walls;
 PImage background;
 ConnectionManager manager;
+Button resetButton;
 int port, nPlayers;
 
 void loadProperties(){
@@ -25,10 +26,15 @@ void setup() {
   } 
   
   setupWalls();
-  bullets.clear();
-  items.clear();
   
   manager = new ConnectionManager(this, port, nPlayers);
+  resetButton = new Button(width-130, 10, 120, 100);
+}
+
+void reset(){
+  bullets.clear();
+  manager.reset();
+  items.clear();
 }
 
 void draw() {
@@ -39,6 +45,9 @@ void draw() {
     }
   }*/
   background(0);
+  if(resetButton.pressed()){
+    reset();
+  }
   
   displayWalls();
   
@@ -47,6 +56,8 @@ void draw() {
   textSize(30*mx);
   textAlign(LEFT,TOP);
   text("Players : "+str(manager.players.size())+" of "+str(manager.nPlayers),100,100);
+  textAlign(CENTER,CENTER);
+  text("reset", width-70, 50);
   
   for(int i=0;i<bullets.size();i++){
     bullet b= bullets.get(i);

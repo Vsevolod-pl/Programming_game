@@ -55,4 +55,8 @@ class BloodSystem {
       }
     }
   }
+  
+  void clear(){
+    blood_spots.clear();
+  }
 }
