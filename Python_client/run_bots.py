@@ -1,7 +1,7 @@
-from bot import RandomBot
+from bot import Bot
 a = int(input())
 
-bs = [RandomBot() for i in range(a)]
+bs = [Bot() for i in range(a)]
 
 while True:
     for bot in bs:

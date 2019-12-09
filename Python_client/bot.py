@@ -9,23 +9,26 @@ class DummyBot:
         self.socket.settimeout(timeout)
         self.socket.connect((ip,port))
         self.socket.send(b"hello")
+        ans = self.readInput()
+        while "you connected" not in str(ans):
+            self.socket.send(b"hello")
+            ans = self.readInput()
         self.alive = True
         self.command = ""
-        self.lastdata = ""
+        self.lastdata = b""
 
     def readInput(self):
-        if self.alive:
-            data = b""
-            timedout = False
-            while not timedout:
-                try:
-                    data += self.socket.recv(1024)
-                except:
-                    timedout = True
-            if data != b"":
-                self.lastdata = data
-            return data
-        return None
+        data = b""
+        timedout = False
+        while not timedout:
+            try:
+                data += self.socket.recv(1024)
+            except:
+                timedout = True
+        if data != b"":
+            self.lastdata = data
+        return data
+
 
     def parsedInput(self):
         """
@@ -63,13 +66,13 @@ class DummyBot:
     def getCurrentState():
         return self.parseInput()
 
-class RandomBot(DummyBot):
+class Bot(DummyBot):
     """docstring for RandomBot"""
     def __init__(self, *arg):
         super().__init__(*arg)
 
     def update(self):
         self.move(random()*1000, random()*1000)
-        for i in range(100):
-            self.shoot(random()*pi*2)
+        self.shoot(random()*pi*2)
+        print(self.parsedInput())
         super().update()
