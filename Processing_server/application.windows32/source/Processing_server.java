@@ -638,10 +638,6 @@ public PVector intersect(float x0, float y0, float a0, float x1, float y1, float
   return null;
 }
 
-public float height(float a, float b, float c){
-  return sqrt((a+b+c)*(a+b-c)*(a+c-b)*(b+c-a))/(4*a);
-}
-
 public PVector RayCast(float x0, float y0, float a0) {
   PVector res = null, tmp;
   for (Polygon p : walls) {
@@ -744,18 +740,23 @@ class Polygon {
   
   public boolean intersect_circle(float x, float y, float r){
     boolean res=false;
-    float a,b,c;
+    PVector a,b;
+    a = new PVector();
+    b = new PVector();
     for(int i=0;i<l+1;i++){
-      a=dist(xs[i%l],ys[i%l],xs[(i+1)%l],ys[(i+1)%l]);
-      c=dist(x,y,xs[(i+1)%l],ys[(i+1)%l]);
-      b=dist(xs[i%l],ys[i%l],x,y);
-      //ine(xs[i%l],ys[i%l],xs[(i+1)%l],ys[(i+1)%l]);
-      if(height(a,b,c)<r){
-        res=true;
+      a.x = x-xs[i%l];
+      a.y = y-ys[i%l];
+      b.x = xs[(i+1)%l]-xs[i%l];
+      b.y = ys[(i+1)%l]-ys[i%l];
+      float S = a.x*b.y-a.y*b.x;
+      float d = abs(S)/b.mag();
+      float x1 = a.dot(b)/b.mag();
+      if ((d<r && x1>0 && x1<b.mag()) || dist(x,y,xs[i%l],ys[i%l]) < r) {
+        res = true;
         break;
       }
     }
-    return pointIn(x,y);
+    return res || pointIn(x,y);
   }
   
 }
