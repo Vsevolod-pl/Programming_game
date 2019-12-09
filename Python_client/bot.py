@@ -18,6 +18,9 @@ class DummyBot:
         self.lastdata = b""
 
     def readInput(self):
+        """
+        reads data from server until server sends data
+        """
         data = b""
         timedout = False
         while not timedout:
@@ -48,6 +51,9 @@ class DummyBot:
         return None
 
     def update(self):
+        """
+        calls every tick inherit it in youre class
+        """
         if (self.alive):
             self.socket.send(bytes(self.command, encoding='utf-8'))
             self.command = ""
@@ -67,7 +73,7 @@ class DummyBot:
         return self.parseInput()
 
 class Bot(DummyBot):
-    """docstring for RandomBot"""
+    """basic implementation of bot"""
     def __init__(self, *arg):
         super().__init__(*arg)
 
