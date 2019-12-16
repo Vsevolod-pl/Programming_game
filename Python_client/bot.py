@@ -4,7 +4,7 @@ from math import pi
 from time import time
 
 class DummyBot:
-    def __init__(self, ip = "localhost", port = 10002, timeout = 1):
+    def __init__(self, name = "bot", ip = "localhost", port = 10002, timeout = 0.1):
         self.socket = socket()
         self.socket.settimeout(timeout)
         self.socket.connect((ip,port))
@@ -13,9 +13,13 @@ class DummyBot:
         while "you connected" not in str(ans):
             self.socket.send(b"hello")
             ans = self.readInput()
+        self.send(name)
         self.alive = True
         self.command = ""
         self.lastdata = b""
+
+    def send(self, string):
+        self.socket.send(bytes(string, encoding='utf-8'))
 
     def readInput(self):
         """
@@ -55,9 +59,8 @@ class DummyBot:
         calls every tick inherit it in youre class
         """
         if (self.alive):
-            self.socket.send(bytes(self.command, encoding='utf-8'))
+            self.send(self.command)
             self.command = ""
-            #print(self.command)
             self.readInput()
             if "died" in str(self.lastdata):
                 self.alive = False
@@ -69,16 +72,14 @@ class DummyBot:
     def move(self, x, y):
         self.command += 'move('+str(x)+', '+str(y)+');'
 
-    def getCurrentState():
-        return self.parseInput()
 
 class Bot(DummyBot):
     """basic implementation of bot"""
-    def __init__(self, *arg):
-        super().__init__(*arg)
+    def __init__(self, *args, *kwargs):
+        super().__init__(*args, *kwargs)
 
     def update(self):
         self.move(random()*1000, random()*1000)
         self.shoot(random()*pi*2)
-        print(self.parsedInput())
+        #print(self.parsedInput())
         super().update()

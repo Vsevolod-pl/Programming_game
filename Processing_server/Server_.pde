@@ -28,9 +28,9 @@ class ConnectionManager{
       if(newClient != null){
         String hello = newClient.readString();
         if(hello.equals("hello")){
-          ClientPlayer newPlayer = new ClientPlayer(newClient, players.size()+1);
-          players.add(newPlayer);
           newClient.write("you connected");
+          ClientPlayer newPlayer = new ClientPlayer(newClient);
+          players.add(newPlayer);
         }
       }
       if(players.size() >= nPlayers){
@@ -44,7 +44,7 @@ class ConnectionManager{
       }
       clearDead();
     }
-    blood.update();
+    //blood.update();
   }
   
   void pointIn(bullet b){

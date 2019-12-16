@@ -6,13 +6,14 @@ class ClientPlayer extends colobok{
   ClientPlayer(Client ic){
     super(0);
     client = ic;
-    name = str(int(random(1000)));
+    while(name == null)
+    name = client.readString();
   }
   
-  ClientPlayer(Client ic, int ind){
+  ClientPlayer(Client ic, String iname){
     super(0);
     client = ic;
-    name = str(ind);
+    name = iname;
     //maxhp = 10000;
     //hp = maxhp;
   }
@@ -50,6 +51,14 @@ class ClientPlayer extends colobok{
     }
     moveTo(tx,ty);
     super.update();
+  }
+  
+  void display(){
+    super.display();
+    fill(color(0,0,255));
+    textSize(20);
+    textAlign(CENTER, BOTTOM);
+    text(name, x, y-r+4*mx);
   }
   
   void onDeath(){
@@ -144,7 +153,7 @@ class colobok {
     fill(175);
     ellipse(x, y, 2*r, 2*r);
     fill(256*(1-hp/maxhp), 256*hp/maxhp, 0);
-    rect(x-r, y-r-10, 2*r*hp/maxhp, 10*mx);
+    rect(x-r, y-r-10*mx, 2*r*hp/maxhp, 10*mx);
   }
 
   void update() {
