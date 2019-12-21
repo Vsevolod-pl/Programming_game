@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ET
 from socket import socket
 from random import random
 from math import pi
@@ -39,7 +40,9 @@ class DummyBot:
 
     def parsedInput(self):
         """
-        returns dictionary of players and bullets
+        :return: dictionary, available keys: 'players':[] and 'bullets':[]
+        each player is represented as dictionary, available keys: "x":float, "y":float, "hp":float, "name":string
+        each bullet is represented as list of coordinats, first is x
         """
         data = self.lastdata
         if data is not None:
@@ -66,20 +69,27 @@ class DummyBot:
                 self.alive = False
 
     def shoot(self, angle):
+        """
+        :param: angle: in radians, 0 is left horisontal direction
+        sends command to shoot at angle
+        """
         self.command += "shoot("+str(angle)+");"
 
 
     def move(self, x, y):
+        """
+        sends command to move your bot, to position(x,y)
+        """
         self.command += 'move('+str(x)+', '+str(y)+');'
 
 
 class Bot(DummyBot):
     """basic implementation of bot"""
-    def __init__(self, *args, *kwargs):
-        super().__init__(*args, *kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def update(self):
         self.move(random()*1000, random()*1000)
         self.shoot(random()*pi*2)
-        #print(self.parsedInput())
+        print(self.parsedInput())
         super().update()
