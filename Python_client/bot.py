@@ -4,8 +4,35 @@ from random import random
 from math import pi
 from time import time
 
+def loadPolygon(xml_polygon):
+    """
+    :param: xml_polygon: etree element with tag polygon
+    :return: list of pairs (x,y) - polygon vertices, clockwork traversal
+    """
+    res = []
+    for v in xml_polygon:
+        if v.tag == "vertex":
+            res.append((v.attrib['x'],v.attrib['y']))
+    return res
+
+
+def loadMap(filename):
+    """
+    Returns list of polygon
+    Each polygon is represented as list of tuples of vertex coordinats, first is x
+    :param: filename: name of xml with map
+    """
+    res = []
+    with open("map.xml","r") as f:
+        map = ET.fromstring(f.read())
+    for i in map:
+        if i.tag == "polygon":
+            res.append(loadPolygon(i))
+    return res
+
+
 class DummyBot:
-    def __init__(self, name = "bot", ip = "localhost", port = 10002, timeout = 0.1):
+    def __init__(self, name = "bot", ip = "localhost", port = 10002, timeout = 0.1, path_to_map = "map.xml"):
         self.socket = socket()
         self.socket.settimeout(timeout)
         self.socket.connect((ip,port))
@@ -18,6 +45,7 @@ class DummyBot:
         self.alive = True
         self.command = ""
         self.lastdata = b""
+        self.map = loadMap(path_to_map)
 
     def send(self, string):
         self.socket.send(bytes(string, encoding='utf-8'))
@@ -91,5 +119,4 @@ class Bot(DummyBot):
     def update(self):
         self.move(random()*1000, random()*1000)
         self.shoot(random()*pi*2)
-        print(self.parsedInput())
         super().update()
