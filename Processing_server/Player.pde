@@ -131,12 +131,12 @@ class colobok {
     }
     if(x<r)
       x = r;
-    if(x>width-r)
-      x = width - r;
+    if(x>width_-r)
+      x = width_ - r;
     if(y<r)
       y = r;
-    if(y>height-r)
-      y = height - r;
+    if(y>height_-r)
+      y = height_ - r;
   }
   
   void shoot(float angle){

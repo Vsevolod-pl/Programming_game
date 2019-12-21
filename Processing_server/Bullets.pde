@@ -41,7 +41,7 @@ class bullet {
   }
 
   void update() {
-    if(min(x,y)<0 || max(x,y)>max(width,height))
+    if(min(x,y)<0 || max(x,y)>max(width_,height_))
       life=0;
     life-=1;
     //if (life<=0) x=width+100;
