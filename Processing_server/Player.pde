@@ -96,10 +96,10 @@ class colobok {
   void setWeapon(int type) {
     switch(type) {
     case 0:
-      weapon=new weapon(this, 20, 20);
+      weapon=new weapon(this, 20, 5);
       break;
     case 1:
-      weapon=new weapon(this, 1, 4);
+      weapon=new weapon(this, 1, 1);
       break;
     case 2:
       weapon=new shotgun(this, 90, 10);

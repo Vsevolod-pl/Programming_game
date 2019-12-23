@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from socket import socket
+from socket import socket, timeout
 from typing import List, Tuple
 import os
 
@@ -84,7 +84,7 @@ class DummyBot:
         while not timedout:
             try:
                 data += self.socket.recv(1024)
-            except:
+            except timeout:
                 timedout = True
         if data != b"":
             self.last_data = data
@@ -114,7 +114,7 @@ class DummyBot:
         calls every tick inherit it in you're class
         """
         if self.alive:
-            self.send(self.command)
+            self.send(self.command+";")
             self.command = ""
             self.read_input()
             if "died" in str(self.last_data):
@@ -134,3 +134,9 @@ class DummyBot:
         sends command to move your bot, to position(x,y)
         """
         self.command += 'move('+str(x)+', '+str(y)+');'
+
+    def stop(self):
+        """
+        bot stops moving
+        """
+        self.command += "stop();"
