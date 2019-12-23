@@ -3,6 +3,7 @@ from subprocess import run
 import pipes
 
 def run_all(cnames, bot_classnames, command_sizes, path_to_bin="./Processing_server/application.windows32/Processing_server.exe"):
+    open('pipefile', 'w+').close()
     p1 = pipes.Template()
     f1 = p1.open('pipefile', 'w')
     run(path_to_bin, cwd=path_to_bin.rsplit("/", 1)[0], stdout=f1)
