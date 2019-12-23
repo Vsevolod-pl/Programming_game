@@ -5,6 +5,7 @@ ArrayList<Polygon> walls;
 PImage background;
 ConnectionManager manager;
 Button resetButton;
+float width_, height_;
 int port, nPlayers;
 
 void loadProperties(){
@@ -12,6 +13,8 @@ void loadProperties(){
   nPlayers = properties.getInt("players");
   XML serverInfo = properties.getChild("server");
   port = serverInfo.getInt("port");
+  height_ = properties.getFloat("height");
+  width_ = properties.getFloat("width"); 
 }
 
 void setup() {
@@ -48,7 +51,10 @@ void draw() {
   if(resetButton.pressed()){
     reset();
   }
-  
+  noFill();
+  stroke(150);
+  strokeWeight(5);
+  rect(0,0,width_,height_);
   displayWalls();
   
   stroke(0);

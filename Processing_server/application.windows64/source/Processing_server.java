@@ -23,6 +23,7 @@ ArrayList<Polygon> walls;
 PImage background;
 ConnectionManager manager;
 Button resetButton;
+float width_, height_;
 int port, nPlayers;
 
 public void loadProperties(){
@@ -30,6 +31,8 @@ public void loadProperties(){
   nPlayers = properties.getInt("players");
   XML serverInfo = properties.getChild("server");
   port = serverInfo.getInt("port");
+  height_ = properties.getFloat("height");
+  width_ = properties.getFloat("width"); 
 }
 
 public void setup() {
@@ -66,7 +69,10 @@ public void draw() {
   if(resetButton.pressed()){
     reset();
   }
-  
+  noFill();
+  stroke(150);
+  strokeWeight(5);
+  rect(0,0,width_,height_);
   displayWalls();
   
   stroke(0);
@@ -137,7 +143,7 @@ class bullet {
   }
 
   public void update() {
-    if(min(x,y)<0 || max(x,y)>max(width,height))
+    if(min(x,y)<0 || max(x,y)>max(width_,height_))
       life=0;
     life-=1;
     //if (life<=0) x=width+100;
@@ -501,12 +507,12 @@ class colobok {
     }
     if(x<r)
       x = r;
-    if(x>width-r)
-      x = width - r;
+    if(x>width_-r)
+      x = width_ - r;
     if(y<r)
       y = r;
-    if(y>height-r)
-      y = height - r;
+    if(y>height_-r)
+      y = height_ - r;
   }
   
   public void shoot(float angle){
