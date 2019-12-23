@@ -561,6 +561,7 @@ class ConnectionManager{
     players = new ArrayList<ClientPlayer>();
     server = new Server(app, port);
     blood = new BloodSystem();
+    println("server started");
   }
   
   public void reset(){
