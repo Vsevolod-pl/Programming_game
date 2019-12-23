@@ -17,4 +17,5 @@ class Bot(bot.DummyBot):
                 if bot['name'] != self.name and bot['hp'] > 0:
                     self.move(bot['x']-200, bot['y']-200)
                     self.shoot(atan2(bot['y']-me['y'], bot['x']-me['x']))
+                    break
         super().update()
